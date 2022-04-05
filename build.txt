@@ -1,0 +1,3 @@
+displayName = Better Beds
+author = -Cyril-
+version = 1.0

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BedFix", "BedFix.csproj", "{B95F7611-0595-48C7-97E4-ADC0D2FFA33A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B95F7611-0595-48C7-97E4-ADC0D2FFA33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B95F7611-0595-48C7-97E4-ADC0D2FFA33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B95F7611-0595-48C7-97E4-ADC0D2FFA33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B95F7611-0595-48C7-97E4-ADC0D2FFA33A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {803BE393-DC8B-448D-A266-973C21CAE232}
+	EndGlobalSection
+EndGlobal
