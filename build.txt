@@ -1,3 +1,4 @@
 displayName = Better Beds
 author = -Cyril-
 version = 1.0
+homepage = https://github.com/Crapsky233/BedFix
