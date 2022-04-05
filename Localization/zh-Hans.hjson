@@ -1,0 +1,24 @@
+Mods: {
+	BedFix: {
+		Configs: {
+			Title:床配置面板
+			Label: {
+				ValidHouseRequirement:是否需要有效房屋
+				FallAsleepAlways:是否强制入睡
+				FallAsleepImmediately:是否立刻入睡
+				UsingItemStopsSleeping:可否被物品使用打断睡眠
+				SleepTogether:可否多人同床/椅
+				SleepOnChair:是否在椅子上睡觉
+
+			}
+			Tooltip: {
+				ValidHouseRequirement:设置重生点时床是否需要处于有效房屋内.
+				FallAsleepAlways:设置在事件发生时是否强制入睡. (入侵、血月、日食、四柱之类)
+				FallAsleepImmediately:设置是否上床后立刻进入入睡状态.
+				UsingItemStopsSleeping:设置使用物品或拿着钓鱼竿时是否会导致玩家停止睡眠.
+				SleepTogether:设置是否与其他玩家同睡/坐在同一张床/椅子上.
+				SleepOnChair:设置坐在椅子上时是否会入睡. (有实际加速时间作用)
+			}
+		}
+	}
+}

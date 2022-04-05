@@ -2,7 +2,6 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -12,16 +11,7 @@ namespace BedFix
 {
     internal class BedSystem : ModSystem
     {
-        private enum EyeFrame // copied from PlayerEyeHelper.cs
-        {
-            EyeOpen,
-            EyeHalfClosed,
-            EyeClosed
-        }
-
-        public override void PostUpdateEverything() {
-            base.PostUpdateEverything();
-        }
+        internal static Configuration Config;
 
         public override void Load() {
             IL.Terraria.Main.DoUpdateInWorld += Main_DoUpdateInWorld;
@@ -56,7 +46,7 @@ namespace BedFix
                 c.Emit(OpCodes.Ldloc_3); // emit i
                 c.EmitDelegate<Func<bool, int, bool>>((fallAsleep, i) => {
                     var player = Main.player[i];
-                    if (!fallAsleep && player.sitting.isSitting && player.sleeping.timeSleeping >= 120)
+                    if (Config.SleepOnChair && !fallAsleep && player.sitting.isSitting && player.sleeping.timeSleeping >= 120)
                         return true; // fall asleep on chair
                     return fallAsleep; // returns normal
                 });
@@ -68,7 +58,7 @@ namespace BedFix
         }
 
         private void PlayerEyeHelper_SetStateByPlayerInfo(On.Terraria.GameContent.PlayerEyeHelper.orig_SetStateByPlayerInfo orig, ref PlayerEyeHelper self, Player player) {
-            if (!player.sleeping.isSleeping && player.sitting.isSitting) {
+            if (Config.SleepOnChair && !player.sleeping.isSleeping && player.sitting.isSitting) {
                 player.sleeping.isSleeping = true;
                 orig.Invoke(ref self, player);
                 player.sleeping.isSleeping = false;
@@ -78,12 +68,14 @@ namespace BedFix
         }
 
         private void PlayerSittingHelper_SitDown(On.Terraria.GameContent.PlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) {
-            player.sleeping.timeSleeping = 0;
+            if (Config.SleepOnChair) {
+                player.sleeping.timeSleeping = 0;
+            }
             orig.Invoke(ref self, player, x, y);
         }
 
         private void PlayerSittingHelper_SitUp(On.Terraria.GameContent.PlayerSittingHelper.orig_SitUp orig, ref PlayerSittingHelper self, Player player, bool multiplayerBroadcast) {
-            if (self.isSitting) {
+            if (Config.SleepOnChair && self.isSitting) {
                 player.sleeping.timeSleeping = 0;
             }
             orig.Invoke(ref self, player, multiplayerBroadcast);
@@ -106,32 +98,37 @@ namespace BedFix
         //}
 
         private bool PlayerSleepingHelper_DoesPlayerHaveReasonToActUpInBed(On.Terraria.GameContent.PlayerSleepingHelper.orig_DoesPlayerHaveReasonToActUpInBed orig, ref PlayerSleepingHelper self, Player player) {
-            return false; // never open the player's eyes.
+            return Config.FallAsleepAlways ? false : orig.Invoke(ref self, player); // never open the player's eyes.
         }
 
         private void PlayerSleepingHelper_UpdateState(On.Terraria.GameContent.PlayerSleepingHelper.orig_UpdateState orig, ref PlayerSleepingHelper self, Player player) {
-            if (self.timeSleeping < 120) {
+            if (Config.FallAsleepImmediately && self.timeSleeping < 120) {
                 self.timeSleeping = 120; // falling asleep immediately.
             }
 
             // enabled sleeping on a chair and is currently on a chair.
-            if (!self.isSleeping && player.sitting.isSitting) {
+            if (Config.SleepOnChair && !self.isSleeping && player.sitting.isSitting) {
                 self.timeSleeping++;
                 return; // don't run vanilla code.
             }
 
-            int i = player.itemAnimation;
-            player.itemAnimation = 0; // so the game thinks the player never used any item.
+            if (Config.UsingItemStopsSleeping) {
+                int i = player.itemAnimation;
+                player.itemAnimation = 0; // so the game thinks the player never used any item.
+                orig.Invoke(ref self, player);
+                player.itemAnimation = i;
+                return;
+            }
+
             orig.Invoke(ref self, player);
-            player.itemAnimation = i;
         }
 
         private int AnchoredEntitiesCollection_GetNextPlayerStackIndexInCoords(On.Terraria.DataStructures.AnchoredEntitiesCollection.orig_GetNextPlayerStackIndexInCoords orig, AnchoredEntitiesCollection self, Point coords) {
-            return 1; // so the game thinks there is only one player.
+            return Config.SleepTogether ? 1 : orig.Invoke(self, coords); // so the game thinks there is only one player.
         }
 
         private bool Player_CheckSpawn(On.Terraria.Player.orig_CheckSpawn orig, int x, int y) {
-            return true;
+            return Config.ValidHouseRequirement ? orig.Invoke(x, y) : true;
         }
     }
 }
