@@ -1,22 +1,38 @@
 Mods: {
 	BedFix: {
 		Configs: {
-			Title:Configuration
-			Label: {
-				ValidHouseRequirement: Valid House Requirement
-				FallAsleepAlways: Force Sleep
-				FallAsleepImmediately: Fall Asleep Immediately
-				UsingItemStopsSleeping: Using Item Stops Sleeping
-				SleepTogether: Share The Same Bed/Chair
-				SleepOnChair: Sleep On Chairs
-			}
-			Tooltip: {
-				ValidHouseRequirement: Whether the bed needs to be in a valid house when setting the spawn point.
-				FallAsleepAlways: Whether to force fall asleep and speed up the time when the event occurs. (Invasion, Blood Moon, Eclipse, Four Pillars, etc.)
-				FallAsleepImmediately: Whether to fall asleep immediately after going to bed
-				UsingItemStopsSleeping: Whether using an item or holding a fishing rod will cause the player to stop sleeping.
-				SleepTogether: Sleeping/sitting on the same bed/chair with another player.
-				SleepOnChair: Whether to fall asleep when sitting on a chair. (It has the effect of actually speeding up time.)
+			Configuration: {
+				ValidHouseRequirement: {
+					Tooltip: Whether the bed needs to be in a valid house when setting the spawn point.
+					Label: Valid House Requirement
+				}
+
+				FallAsleepAlways: {
+					Tooltip: Whether to force fall asleep and speed up the time when the event occurs. (Invasion, Blood Moon, Eclipse, Celestial Pillars, etc.)
+					Label: Force Sleep
+				}
+
+				FallAsleepImmediately: {
+					Tooltip: Whether to fall asleep immediately after going to bed.
+					Label: Fall Asleep Immediately
+				}
+
+				UsingItemStopsSleeping: {
+					Tooltip: Whether using an item or holding a fishing rod will cause the player to stop sleeping.
+					Label: Using Item Stops Sleeping
+				}
+
+				SleepTogether: {
+					Tooltip: Sleeping/sitting on the same bed/chair with another player.
+					Label: Share The Same Bed/Chair
+				}
+
+				DisplayName: Configuration
+
+				SleepOnChair: {
+					Tooltip: Whether to fall asleep when sitting on a chair. (It has the effect of actually speeding up time.)
+					Label: Sleep On Chairs
+				}
 			}
 		}
 	}

@@ -14,14 +14,14 @@ namespace BedFix
         internal static Configuration Config;
 
         public override void Load() {
-            IL.Terraria.Main.DoUpdateInWorld += Main_DoUpdateInWorld;
-            On.Terraria.GameContent.PlayerEyeHelper.SetStateByPlayerInfo += PlayerEyeHelper_SetStateByPlayerInfo; ;
-            On.Terraria.GameContent.PlayerSittingHelper.SitDown += PlayerSittingHelper_SitDown;
-            On.Terraria.GameContent.PlayerSittingHelper.SitUp += PlayerSittingHelper_SitUp;
-            On.Terraria.GameContent.PlayerSleepingHelper.DoesPlayerHaveReasonToActUpInBed += PlayerSleepingHelper_DoesPlayerHaveReasonToActUpInBed;
-            On.Terraria.GameContent.PlayerSleepingHelper.UpdateState += PlayerSleepingHelper_UpdateState;
-            On.Terraria.Player.CheckSpawn += Player_CheckSpawn;
-            On.Terraria.DataStructures.AnchoredEntitiesCollection.GetNextPlayerStackIndexInCoords += AnchoredEntitiesCollection_GetNextPlayerStackIndexInCoords;
+            IL_Main.DoUpdateInWorld += Main_DoUpdateInWorld;
+            On_PlayerEyeHelper.SetStateByPlayerInfo += PlayerEyeHelper_SetStateByPlayerInfo; ;
+            On_PlayerSittingHelper.SitDown += PlayerSittingHelper_SitDown;
+            On_PlayerSittingHelper.SitUp += PlayerSittingHelper_SitUp;
+            On_PlayerSleepingHelper.DoesPlayerHaveReasonToActUpInBed += PlayerSleepingHelper_DoesPlayerHaveReasonToActUpInBed;
+            On_PlayerSleepingHelper.UpdateState += PlayerSleepingHelper_UpdateState;
+            On_Player.CheckSpawn += Player_CheckSpawn;
+            On_AnchoredEntitiesCollection.GetNextPlayerStackIndexInCoords += AnchoredEntitiesCollection_GetNextPlayerStackIndexInCoords;
         }
 
         //IL_0061: ldsfld class Terraria.Player[] Terraria.Main::player
@@ -57,7 +57,7 @@ namespace BedFix
             }
         }
 
-        private void PlayerEyeHelper_SetStateByPlayerInfo(On.Terraria.GameContent.PlayerEyeHelper.orig_SetStateByPlayerInfo orig, ref PlayerEyeHelper self, Player player) {
+        private void PlayerEyeHelper_SetStateByPlayerInfo(On_PlayerEyeHelper.orig_SetStateByPlayerInfo orig, ref PlayerEyeHelper self, Player player) {
             if (Config.SleepOnChair && !player.sleeping.isSleeping && player.sitting.isSitting) {
                 player.sleeping.isSleeping = true;
                 orig.Invoke(ref self, player);
@@ -67,14 +67,14 @@ namespace BedFix
             orig.Invoke(ref self, player);
         }
 
-        private void PlayerSittingHelper_SitDown(On.Terraria.GameContent.PlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) {
+        private void PlayerSittingHelper_SitDown(On_PlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) {
             if (Config.SleepOnChair) {
                 player.sleeping.timeSleeping = 0;
             }
             orig.Invoke(ref self, player, x, y);
         }
 
-        private void PlayerSittingHelper_SitUp(On.Terraria.GameContent.PlayerSittingHelper.orig_SitUp orig, ref PlayerSittingHelper self, Player player, bool multiplayerBroadcast) {
+        private void PlayerSittingHelper_SitUp(On_PlayerSittingHelper.orig_SitUp orig, ref PlayerSittingHelper self, Player player, bool multiplayerBroadcast) {
             if (Config.SleepOnChair && self.isSitting) {
                 player.sleeping.timeSleeping = 0;
             }
@@ -97,11 +97,11 @@ namespace BedFix
         //        targetValue.SetValue(player.eyeHelper, (int)((_timeInState >= 60) ? ((_timeInState < 120) ? EyeFrame.EyeHalfClosed : EyeFrame.EyeClosed) : eyeFrame));
         //}
 
-        private bool PlayerSleepingHelper_DoesPlayerHaveReasonToActUpInBed(On.Terraria.GameContent.PlayerSleepingHelper.orig_DoesPlayerHaveReasonToActUpInBed orig, ref PlayerSleepingHelper self, Player player) {
+        private bool PlayerSleepingHelper_DoesPlayerHaveReasonToActUpInBed(On_PlayerSleepingHelper.orig_DoesPlayerHaveReasonToActUpInBed orig, ref PlayerSleepingHelper self, Player player) {
             return Config.FallAsleepAlways ? false : orig.Invoke(ref self, player); // never open the player's eyes.
         }
 
-        private void PlayerSleepingHelper_UpdateState(On.Terraria.GameContent.PlayerSleepingHelper.orig_UpdateState orig, ref PlayerSleepingHelper self, Player player) {
+        private void PlayerSleepingHelper_UpdateState(On_PlayerSleepingHelper.orig_UpdateState orig, ref PlayerSleepingHelper self, Player player) {
             if (Config.FallAsleepImmediately && self.timeSleeping < 120) {
                 self.timeSleeping = 120; // falling asleep immediately.
             }
@@ -123,11 +123,11 @@ namespace BedFix
             orig.Invoke(ref self, player);
         }
 
-        private int AnchoredEntitiesCollection_GetNextPlayerStackIndexInCoords(On.Terraria.DataStructures.AnchoredEntitiesCollection.orig_GetNextPlayerStackIndexInCoords orig, AnchoredEntitiesCollection self, Point coords) {
+        private int AnchoredEntitiesCollection_GetNextPlayerStackIndexInCoords(On_AnchoredEntitiesCollection.orig_GetNextPlayerStackIndexInCoords orig, AnchoredEntitiesCollection self, Point coords) {
             return Config.SleepTogether ? 1 : orig.Invoke(self, coords); // so the game thinks there is only one player.
         }
 
-        private bool Player_CheckSpawn(On.Terraria.Player.orig_CheckSpawn orig, int x, int y) {
+        private bool Player_CheckSpawn(On_Player.orig_CheckSpawn orig, int x, int y) {
             return Config.ValidHouseRequirement ? orig.Invoke(x, y) : true;
         }
     }
