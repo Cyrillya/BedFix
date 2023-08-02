@@ -1,7 +1,8 @@
 Mods: {
 	BedFix: {
 		Configs: {
-			Title:Configuration
+			Title: Configuration
+
 			Label: {
 				ValidHouseRequirement: Valid House Requirement
 				FallAsleepAlways: Force Sleep
@@ -10,6 +11,7 @@ Mods: {
 				SleepTogether: Share The Same Bed/Chair
 				SleepOnChair: Sleep On Chairs
 			}
+
 			Tooltip: {
 				ValidHouseRequirement: Whether the bed needs to be in a valid house when setting the spawn point.
 				FallAsleepAlways: Whether to force fall asleep and speed up the time when the event occurs. (Invasion, Blood Moon, Eclipse, Four Pillars, etc.)
@@ -17,6 +19,40 @@ Mods: {
 				UsingItemStopsSleeping: Whether using an item or holding a fishing rod will cause the player to stop sleeping.
 				SleepTogether: Sleeping/sitting on the same bed/chair with another player.
 				SleepOnChair: Whether to fall asleep when sitting on a chair. (It has the effect of actually speeding up time.)
+			}
+
+			Configuration: {
+				SleepOnChair: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.SleepOnChair}"
+					Label: "{$Mods.BedFix.Configs.Label.SleepOnChair}"
+				}
+
+				SleepTogether: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.SleepTogether}"
+					Label: "{$Mods.BedFix.Configs.Label.SleepTogether}"
+				}
+
+				UsingItemStopsSleeping: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.UsingItemStopsSleeping}"
+					Label: "{$Mods.BedFix.Configs.Label.UsingItemStopsSleeping}"
+				}
+
+				FallAsleepImmediately: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.FallAsleepImmediately}"
+					Label: "{$Mods.BedFix.Configs.Label.FallAsleepImmediately}"
+				}
+
+				FallAsleepAlways: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.FallAsleepAlways}"
+					Label: "{$Mods.BedFix.Configs.Label.FallAsleepAlways}"
+				}
+
+				ValidHouseRequirement: {
+					Tooltip: "{$Mods.BedFix.Configs.Tooltip.ValidHouseRequirement}"
+					Label: "{$Mods.BedFix.Configs.Label.ValidHouseRequirement}"
+				}
+
+				DisplayName: "{$Mods.BedFix.Configs.Title}"
 			}
 		}
 	}
